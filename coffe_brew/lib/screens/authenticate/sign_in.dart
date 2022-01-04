@@ -1,4 +1,5 @@
 import 'package:coffe_brew/services/auth.dart';
+import 'package:coffe_brew/shared/constant.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -11,8 +12,9 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
-  String? email;
-  String? password;
+  String email = '';
+  String password = '';
+  String error = '';
 
   final _formKey = GlobalKey<FormState>();
 
@@ -44,6 +46,7 @@ class _SignInState extends State<SignIn> {
                 child: Column(children: [
                   const SizedBox(height: 20),
                   TextFormField(
+                      decoration: textInputStyle.copyWith(hintText: 'Email'),
                       validator: (value) =>
                           value!.isEmpty ? 'Enter email addres' : null,
                       onChanged: (value) {
@@ -53,6 +56,7 @@ class _SignInState extends State<SignIn> {
                       }),
                   const SizedBox(height: 20),
                   TextFormField(
+                      decoration: textInputStyle.copyWith(hintText: 'password'),
                       validator: (value) => value!.length < 6
                           ? 'Enter more than 6 character'
                           : null,
@@ -64,13 +68,22 @@ class _SignInState extends State<SignIn> {
                       }),
                   const SizedBox(height: 20),
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.pink),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          print(email);
-                          print(password);
+                          dynamic result = await _auth
+                              .signInWithEmailAndPassword(email, password);
+                          print(result);
+                          if (result == null) {
+                            setState(() {
+                              error = 'cannot sign in with user credential';
+                            });
+                          }
                         }
                       },
-                      child: const Text('Sign In'))
+                      child: const Text('Sign In')),
+                  const SizedBox(height: 20),
+                  Text(error, style: const TextStyle(color: Colors.red))
                 ]))));
   }
 }

@@ -1,3 +1,5 @@
+import 'package:coffe_brew/shared/constant.dart';
+
 import '/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +47,7 @@ class _RegisterState extends State<Register> {
                 children: [
                   const SizedBox(height: 20),
                   TextFormField(
+                    decoration: textInputStyle.copyWith(hintText: 'Email'),
                     validator: (value) =>
                         value!.isEmpty ? 'Enter email addres' : null,
                     onChanged: (value) {
@@ -55,6 +58,7 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    decoration: textInputStyle.copyWith(hintText: 'password'),
                     validator: (value) => value!.length < 6
                         ? 'Enter more than 6 character'
                         : null,
@@ -67,6 +71,7 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.pink),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           dynamic result = await _auth
@@ -80,8 +85,8 @@ class _RegisterState extends State<Register> {
                         }
                       },
                       child: const Text('Register')),
-                  SizedBox(height: 20),
-                  Text(error, style: TextStyle(color: Colors.red))
+                  const SizedBox(height: 20),
+                  Text(error, style: const TextStyle(color: Colors.red))
                 ],
               ))),
     );
