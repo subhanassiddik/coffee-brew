@@ -18,7 +18,7 @@ class Home extends StatelessWidget {
               onPressed: () async {
                 await _auth.logOut();
               },
-              icon: Icon(Icons.logout)),
+              icon: const Icon(Icons.logout)),
         ],
       ),
     );
